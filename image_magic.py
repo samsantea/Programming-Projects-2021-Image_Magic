@@ -3,6 +3,39 @@
 
 from PIL import Image
 
+def to_greyscale(pixel: tuple, algo="average") -> tuple:
+    """ Convert a pixel to greyscale.
+    Can also specify the greyscale algorithm.
+    Defaults to average.
+
+    Args:
+        pixel: a 3-tuple of ints
+            from 0-255, e.g. (140, 120, 255)
+            represents (red, green, blue)
+        algo: The greyscale conversion algorithm
+            specified by the user
+            valid values are "average", "luma"
+            Defaults to "average"
+
+    Returns:
+        a 3-tuple pixel (r, g, b) in greyscale
+    """
+
+    # GRAB R, G, B
+    # red = pixel[0]
+    # green = pixel[1]
+    # blue = pixel[2]
+
+    red, green, blue = pixel  # can only be done with lists or tuples
+
+    # calculate the grey pixel
+    if algo.lower() == "luma":
+        grey = int(red * 0.3 + green * 0.59 + blue * 0.11)
+    else:
+        grey = int((red + green + blue) / 3)
+
+    return grey, grey, grey
+
 # Load the image (pumpkin)
 
 # Use single quotes when referring to something
@@ -32,19 +65,11 @@ for y in range(image_height):
         # Grab pixel information for THIS pixel
         pixel = image.getpixel((x, y))
 
-        # GRAB R, G, B
-        # red = pixel[0]
-        # green = pixel[1]
-        # blue = pixel[2]
+        grey_pixel = to_greyscale(pixel)
 
-        red, green, blue = pixel # can only be done with lists or tuples
+        # put that in the new image
+        output_image.putpixel((x, y), grey_pixel)
 
-        # calculate the average
-        average = sum(pixel)/len(pixel)
-        average = int( (red + green + blue) / 3 )# same as above
-        # create a gray pixel
-        gray_pixel = (average, average, average)
-        # TODO: put that in the new image
-        output_image.putpixel((x, y), gray_pixel)
+output_image.save('greyscale_2.jpg')
 
-output_image.save('grayscale.jpg')
+print("Done!")
