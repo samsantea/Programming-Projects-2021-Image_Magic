@@ -36,6 +36,94 @@ def to_greyscale(pixel: tuple, algo="average") -> tuple:
 
     return grey, grey, grey
 
+# def brighter(pixel: tuple, brightness: int) -> tuple:
+#     """Increases the brightness of a pixel
+#
+#     Args:
+#         pixel: a 3-tuple of (red, green, blue)
+#             subpixels
+#         brightness: the amount to increase pixel brightness by.
+#
+#
+#     Returns:
+#           a 3-tuple representing a brighter pixel
+#     """
+#
+#     red, green, blue = pixel
+#
+#     # Calculate the brighter pixel
+#
+#     brighten_colours = True
+#
+#     if red and green and blue >= 255:
+#         brighter_red = red
+#         brighter_green = green
+#         brighter_blue = blue
+#         brighten_colours = False
+#
+#     while brighten_colours == True:
+#         if red >= 255:
+#             brighter_red = red
+#             brighter_green = int(green + brightness)
+#             brighter_blue = int(blue + brightness)
+#         elif green>= 255:
+#             brighter_red = int(red + brightness)
+#             brighter_green = green
+#             brighter_blue = int(blue + brightness)
+#         elif blue >= 255:
+#             brighter_red = int(red + brightness)
+#             brighter_green = int(green + brightness)
+#             brighter_blue = blue
+#         else:
+#             if red + magnitude >= 255:
+#                 red = 255
+#             else:
+#                 red += 25
+#             if green + magnitude >= 255:
+#                 green = 255
+#             else:
+#                 green += 25
+#             if blue + 25 >= 255:
+#                 blue = 255
+#             else:
+#                 blue += 25
+#     return brighter_red, brighter_green, brighter_blue
+
+def brighter_ubial(pixel: tuple, magnitude) -> tuple:
+    """Increases the brightness of a pixel
+
+    Args:
+        pixel: a 3-tuple of (red, green, blue)
+            subpixels
+        magnitude: an int from 0, 255 that indicated how much to increase brightness
+
+
+    Returns:
+          a 3-tuple representing a brighter pixel
+    """
+
+    red, green, blue = pixel
+
+    # max value for a subpixel
+    MAX = 255
+
+    #  Increase the value by some number
+    if red + magnitude >= MAX:
+        red = 255
+    else:
+        red += magnitude
+    if green + magnitude >= MAX:
+        green = MAX
+    else:
+        green += magnitude
+    if blue + magnitude >= MAX:
+        blue = MAX
+    else:
+        blue += magnitude
+
+    return red, green, blue
+
+
 # Load the image (pumpkin)
 
 # Use single quotes when referring to something
@@ -65,11 +153,11 @@ for y in range(image_height):
         # Grab pixel information for THIS pixel
         pixel = image.getpixel((x, y))
 
-        grey_pixel = to_greyscale(pixel)
+        brighter_pixel = brighter_ubial(pixel, 100)
 
         # put that in the new image
-        output_image.putpixel((x, y), grey_pixel)
+        output_image.putpixel((x, y), brighter_pixel)
 
-output_image.save('greyscale_2.jpg')
+output_image.save('brighterer.jpg')
 
 print("Done!")
