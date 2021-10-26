@@ -1,5 +1,6 @@
 # classes_exercise.py
 # Oct 25 2021
+# Sam
 """
 1. Create a class according to the following requirements:
 It's name is Vehicle and it has the following attributes/methods:
